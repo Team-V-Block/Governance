@@ -77,6 +77,7 @@ contract Governance {
     }
 
     function vote(uint256 candidateIndex) public isShareholder hasNotVoted returns (bool) {
+        require(votingAllowed == true, "Voting not allowed");
         candidates[candidateIndex].voteCount += 1;
         voters[msg.sender] = voter({voted: true, vote: candidateIndex});
         return true;
@@ -86,7 +87,7 @@ contract Governance {
         return shareholders[account];
     }
 
-    function changevotingAllowed (bool status) public canChangeVotingAllowed {
+    function changeVotingAllowed (bool status) public canChangeVotingAllowed {
         votingAllowed = status;
     }
 
@@ -108,7 +109,7 @@ contract Governance {
         return candidates[winnerIndex];
     }
     function addCandidates (string[] calldata names) public canAddCandidates {
-        require(names.length <= 50, "Names array size is greater than amount allowable");
+        require(names.length <= 50, "Number of candidates is greater than amount allowable");
         for (uint i=0; i<names.length; i++) {
             candidates.push(candidate({name: names[i], voteCount: 0}));
         }
