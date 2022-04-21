@@ -100,15 +100,6 @@ contract Governance {
         resultPublic = status;
     }
 
-    function getWinner () public view canViewResult returns (candidate memory) {
-        uint256 winnerIndex = 0;
-        for (uint256 i=0; i<candidates.length; i++) {
-            if (winnerIndex < candidates[i].voteCount) {
-                winnerIndex = i;
-            }
-        }
-        return candidates[winnerIndex];
-    }
     function addCandidates (string[] calldata names) public canAddCandidates {
         require(names.length <= 50, "Number of candidates is greater than amount allowable");
         for (uint i=0; i<names.length; i++) {
