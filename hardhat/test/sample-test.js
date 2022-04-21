@@ -1,19 +1,22 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe("Governance Contract", function () {
+  let Governance, owner, addr1, addr2;
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+  // This will run before each test
+  beforeEach(async function () {
+    Governance = await ethers.getContractFactory("Governance");
+    [owner] = await ethers.getSigners();
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+    Govern = await Governance.deploy();
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+    await Govern.deployed();
+  });
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+  describe("Deployment", function () {
+    it("Should get the Chairman Role as deployer address", async function () {
+      expect(await Govern.getRoleChairman()).to.equal(owner.address);
+    });
   });
 });

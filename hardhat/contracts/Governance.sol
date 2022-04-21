@@ -27,7 +27,7 @@ contract Governance {
     }
 
     function getRoleChairman () public view returns(address){
-     
+        return roles[CHAIRMAN_ROLE][0];
     }
 
 }
