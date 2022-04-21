@@ -66,12 +66,13 @@ contract Governance {
 
     constructor (){
         //Grant chairman role to the contract deployer
-       grantRole(CHAIRMAN_ROLE, msg.sender);
+       shareholders[msg.sender] = CHAIRMAN_ROLE;
+       shareholderArray.push(msg.sender);
     }
 
     function grantRole(bytes32 role, address account) public isValidRole(role) returns (bool) {
         require (account != address(0));
-        require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only accounts with CHAIRMAN ROLE can grant roles")
+        require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only accounts with CHAIRMAN ROLE can grant roles");
         shareholders[account] = role;
         shareholderArray.push(account);
         return true;
