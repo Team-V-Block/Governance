@@ -43,12 +43,12 @@ contract Governance {
     }
 
     modifier canChangeVotingAllowed (){
-        require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only account with CHAIRMAN_ROLE can change voting allowed");
+        require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only account with CHAIRMAN ROLE can change voting allowed");
         _;
     }
 
     modifier canChangeResultStatus (){
-        require(shareholders[msg.sender] == CHAIRMAN_ROLE || shareholders[msg.sender] == TEACHER_ROLE, "Only account with CHAIRMAN_ROLE can change voting allowed");
+        require(shareholders[msg.sender] == CHAIRMAN_ROLE || shareholders[msg.sender] == TEACHER_ROLE, "Only accounts with CHAIRMAN or TEACHER ROLE can change result status");
         _;
     }
 
@@ -56,6 +56,11 @@ contract Governance {
         if (shareholders[msg.sender] == STUDENT_ROLE) {
             require(resultPublic == true, "Result not yet public");
         }
+        _;
+    }
+
+    modifier canAddCandidates (){
+        require(shareholders[msg.sender] == CHAIRMAN_ROLE || shareholders[msg.sender] == TEACHER_ROLE, "Only accounts with CHAIRMAN or TEACHER ROLE can add candidates");
         _;
     }
 
@@ -101,5 +106,11 @@ contract Governance {
             }
         }
         return candidates[winnerIndex];
+    }
+    function addCandidates (string[] calldata names) public canAddCandidates {
+        require(names.length <= 50, "Names array size is greater than amount allowable");
+        for (uint i=0; i<names.length; i++) {
+            candidates.push(candidate({name: names[i], voteCount: 0}));
+        }
     }
 }
