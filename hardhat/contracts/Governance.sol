@@ -10,6 +10,11 @@ contract Governance {
     //set variables for vote control
     bool public votingAllowed = true;
     bool public resultPublic = false;
+
+    //define event for vote
+    event shareholderVoted (address account, uint candidateIndex);
+
+    event roleGranted (address account, bytes32 role);
     
     //define struct for candidate
     struct candidate {
@@ -98,6 +103,7 @@ contract Governance {
         require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only accounts with CHAIRMAN ROLE can grant roles");
         shareholders[account] = role;
         shareholderArray.push(account);
+        emit roleGranted(account, role);
         return true;
     }
 
@@ -106,6 +112,7 @@ contract Governance {
         require(votingAllowed == true, "Voting not allowed"); //check if votting is currently allowed
         candidates[candidateIndex].voteCount += 1;
         voters[msg.sender] = voter({voted: true, vote: candidateIndex});
+        emit shareholderVoted(msg.sender, candidateIndex);
         return true;
     }
 
