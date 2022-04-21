@@ -29,7 +29,7 @@ contract Governance {
     }
 
     //a dynamically-sized array of `candidate` structs.
-    candidate[] candidates;
+    candidate[] public candidates;
 
     //a dynamically-sized array of student structs.
     address[] shareholderArray;
@@ -117,6 +117,10 @@ contract Governance {
         return true;
     }
 
+    // function to get candidate vote count 
+    function getVoteCount (uint candidateIdx) public view returns(uint){
+        return candidates[candidateIdx].voteCount;
+    }
     //function to get the role of a shareholder
     function getRole (address account) public view returns (bytes32) {
         return shareholders[account];
