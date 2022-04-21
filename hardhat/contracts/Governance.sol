@@ -110,6 +110,7 @@ contract Governance {
     //voting function
     function vote(uint256 candidateIndex) public isShareholder hasNotVoted returns (bool) {
         require(votingAllowed == true, "Voting not allowed"); //check if votting is currently allowed
+        require(candidates.length > candidateIndex, "Candidate index out of bound"); //check if candidateIndex is in bound
         candidates[candidateIndex].voteCount += 1;
         voters[msg.sender] = voter({voted: true, vote: candidateIndex});
         emit shareholderVoted(msg.sender, candidateIndex);
