@@ -25,7 +25,7 @@ contract Governance {
     address[] shareholderArray;
 
     mapping(address => bytes32) shareholders;
-    mapping(address => voter) public voters;
+    mapping(address => voter) voters;
    
     modifier isValidRole(bytes32 role) {
         require (role == STUDENT_ROLE || role == TEACHER_ROLE || role == CHAIRMAN_ROLE, "Cannot assign invalid role!");
