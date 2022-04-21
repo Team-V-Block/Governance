@@ -64,13 +64,18 @@ contract Governance {
         _;
     }
 
+    modifier roleless (address account){
+        require (shareholders[account] != CHAIRMAN_ROLE && shareholders[account] != STUDENT_ROLE && shareholders[account] != TEACHER_ROLE, "Account has already been assigned a role");
+        _;
+    }
+
     constructor (){
         //Grant chairman role to the contract deployer
        shareholders[msg.sender] = CHAIRMAN_ROLE;
        shareholderArray.push(msg.sender);
     }
 
-    function grantRole(bytes32 role, address account) public isValidRole(role) returns (bool) {
+    function grantRole(bytes32 role, address account) public isValidRole(role) roleless(account) returns (bool) {
         require (account != address(0));
         require(shareholders[msg.sender] == CHAIRMAN_ROLE, "Only accounts with CHAIRMAN ROLE can grant roles");
         shareholders[account] = role;
