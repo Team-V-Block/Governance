@@ -29,7 +29,7 @@ contract Governance {
     }
 
     //a dynamically-sized array of `candidate` structs.
-    candidate[] public candidates;
+    candidate[] candidates;
 
     //a dynamically-sized array of student structs.
     address[] shareholderArray;
