@@ -1,10 +1,10 @@
-import { useState } from "react";
-import WalletCard from "./WalletCard";
+import React, { useState } from "react";
+import GovernanceApp from "./GovernanceApp";
 
 function App() {
   return (
     <>
-      <WalletCard></WalletCard>
+      <GovernanceApp></GovernanceApp>
     </>
   );
 }
